@@ -5,8 +5,10 @@ main_collection = /main/main.collectionc
 shared_state = 1
 
 [display]
-width = 500
-height = 500
+width = 1252
+height = 626
+display_profiles = /builtins/render/default.display_profilesc
+fullscreen = 0
 
 [android]
 input_method = HiddenInputField
