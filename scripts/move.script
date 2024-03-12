@@ -3,12 +3,11 @@ local HASH_LEFT = hash("left")
 local HASH_RIGHT = hash("right")
 local HASH_UP = hash("up")
 local HASH_DOWN = hash("down")
+local speed = 100
 
--- Declare Local Function which plays animation unless that same animation is already playing
 local function play_animation(self, animation)
 	if self.current_animation ~= animation then
 		self.current_animation = animation
-		-- Send message to this character's sprite to start animation
 		msg.post("#sprite", "play_animation", { id = animation })
 	end
 end
@@ -20,69 +19,53 @@ function init(self)
 
 	go.set_position(vmath.vector3(626, 313, 0))
 
-	self.speed = vmath.vector3(50, 50, 0)
+	self.speed = vmath.vector3(0, 0, 0)
 end
 
 
 function update(self, dt)
-	-- msg.post("@render:", "draw_text", { text = "Use left/right/up/down arrow keys to move" 
-	-- .. " the Wizard", position = vmath.vector3(10, 25, 0) } )
-	-- msg.post("@render:", "draw_text", { text = "Wizard's go.get_position().x -- " 
-	-- .. math.floor(go.get_position().x), position = vmath.vector3(700, 40, 0) } )
-	-- msg.post("@render:", "draw_text", { text = "Wizard's go.get_position().y -- " 
-	-- .. math.floor(go.get_position().y), position = vmath.vector3(700, 25, 0) } )		
+	if (go.get_position().x < 34) then
+		self.speed.x = 0
+		go.set_position(vmath.vector3(34, go.get_position().y, 0))
+	end
 
+	if  (go.get_position().x > 1218) then
+		self.speed.x = 0
+		go.set_position(vmath.vector3(1218, go.get_position().y, 0))
+	end
 
--- 	if (go.get_position().x < 50) then
--- 		self.speed.x = 50
--- 	end
--- 
--- 	if (go.get_position().x > 1202) then
--- 		self.speed.x = -50
--- 	end
--- 
--- 	if (go.get_position().y > 526) then
--- 		self.speed.y = -50
--- 	end
--- 
--- 	if (go.get_position().y < 50) then
--- 		self.speed.y = 50
--- 	end
+	if (go.get_position().y < 39) then
+		self.speed.y = 0
+		go.set_position(vmath.vector3(go.get_position().x, 39, 0))
+	end
 
-	-- Flip the sprite animation image when the x speed is negative
+	if  (go.get_position().y > 587) then
+		self.speed.y = 0
+		go.set_position(vmath.vector3(go.get_position().x, 587, 0))
+	end
+	
 	sprite.set_hflip("#sprite", self.speed.x < 0)
 
-	-- Update the arrowMove Character's Postion based on speed and time since last update 
 	go.set_position(go.get_position() + self.speed * dt)
 end
 
--- ------------------------------------------------------------------------------------------
--- The on_input() function processes all input triggers (Key Triggers/Touch Events)
--- ------------------------------------------------------------------------------------------
-
 function on_input(self, action_id, action)
 
-	-- Process the clicking of the LEFT Arrow Key
 	if action_id == HASH_LEFT then
 
-		-- When the Left Arrow is pressed, set the horizontal speed to a negative 50 
-		-- and set the animation to walking
 		if action.pressed then
-			self.speed.x = -50
+			self.speed.x = -speed
 			play_animation(self, hash("player_walk"))
-
-			-- When the Left Arrow is released, set the horizontal speed to zero and 
-			-- set the animation to idle	
+	
 		elseif action.released then
 			self.speed.x = 0
 			play_animation(self, hash("player_idle"))
 		end
 		return true
 
-		-- Process the clicking of the RIGHT Arrow Key
 	elseif action_id == HASH_RIGHT then
 		if action.pressed then
-			self.speed.x = 50
+			self.speed.x = speed
 			play_animation(self, hash("player_walk"))
 		elseif action.released then
 			self.speed.x = 0
@@ -90,10 +73,9 @@ function on_input(self, action_id, action)
 		end
 		return true
 
-		-- Process the clicking of the UP Arrow Key
 	elseif action_id == HASH_UP then
 		if action.pressed then
-			self.speed.y = 50
+			self.speed.y = speed
 			play_animation(self, hash("player_walk"))
 		elseif action.released then
 			self.speed.y = 0
@@ -101,10 +83,9 @@ function on_input(self, action_id, action)
 		end
 		return true
 
-		-- Process the clicking of the DOWN Arrow Key
 	elseif action_id == HASH_DOWN then
 		if action.pressed then
-			self.speed.y = -50
+			self.speed.y = -speed
 			play_animation(self, hash("player_walk"))
 		elseif action.released then
 			self.speed.y = 0
