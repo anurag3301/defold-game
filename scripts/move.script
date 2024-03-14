@@ -3,6 +3,7 @@ local HASH_LEFT = hash("left")
 local HASH_RIGHT = hash("right")
 local HASH_UP = hash("up")
 local HASH_DOWN = hash("down")
+local TOUCH = hash("touch")
 local speed = 100
 
 local function play_animation(self, animation)
@@ -22,6 +23,8 @@ function init(self)
 	self.speed = vmath.vector3(0, 0, 0)
 
 	self.move_state = {false, false, false, false}
+	self.fire_rate = 1  -- Adjust the fire rate as needed
+	self.fire_timer = 0
 end
 
 
@@ -49,8 +52,7 @@ function update(self, dt)
 	sprite.set_hflip("#sprite", self.speed.x < 0)
 
 	go.set_position(go.get_position() + self.speed * dt)
-
-	-- go.set_rotation(go.get_rotation() * vmath.quat_rotation_z(10 * math.rad(dt)))
+	self.fire_timer = self.fire_timer - dt
 end
 
 
@@ -67,8 +69,20 @@ function on_input(self, action_id, action)
 	player_angle = go.get_rotation()
 	angle = rotation_angle(player_x, player_y, mouse_x, mouse_y, player_angle)
 	go.set_rotation(vmath.quat_rotation_z(angle))
+
+
+	if action_id == TOUCH then
+		if action.pressed then
+			self.fire_timer = 0
+		elseif action.released then
+			self.fire_timer = 0
+		end
+		if self.fire_timer <= 0 then
+			factory.create("#factory")
+			self.fire_timer = self.fire_rate
+		end
 	
-	if action_id == HASH_LEFT then
+	elseif action_id == HASH_LEFT then
 		if action.pressed then
 			self.speed.x = -speed
 			self.move_state[1] = true
