@@ -21,7 +21,7 @@ function init(self)
 
 	self.speed = vmath.vector3(0, 0, 0)
 
-	self.move_state = {0, 0, 0, 0}
+	self.move_state = {false, false, false, false}
 end
 
 
@@ -71,43 +71,43 @@ function on_input(self, action_id, action)
 	if action_id == HASH_LEFT then
 		if action.pressed then
 			self.speed.x = -speed
-			self.move_state[1] = 1
+			self.move_state[1] = true
 		elseif action.released then
 			self.speed.x = 0
-			self.move_state[1] = 0
+			self.move_state[1] = false
 		end
 
 	elseif action_id == HASH_RIGHT then
 		if action.pressed then
 			self.speed.x = speed
-			self.move_state[2] = 1
+			self.move_state[2] = true
 		elseif action.released then
 			self.speed.x = 0
-			self.move_state[2] = 0
+			self.move_state[2] = false
 		end
 
 	elseif action_id == HASH_UP then
 		if action.pressed then
 			self.speed.y = speed
-			self.move_state[3] = 1
+			self.move_state[3] = true
 		elseif action.released then
 			self.speed.y = 0
-			self.move_state[3] = 0
+			self.move_state[3] = false
 		end
 
 	elseif action_id == HASH_DOWN then
 		if action.pressed then
 			self.speed.y = -speed
-			self.move_state[4] = 1
+			self.move_state[4] = true
 		elseif action.released then
 			self.speed.y = 0
-			self.move_state[4] = 0
+			self.move_state[4] = false
 		end
 	end
 
 	local walk = false
 	for i, value in ipairs(self.move_state) do
-		if value == 1 then
+		if value then
 			walk = true
 		end
 	end
