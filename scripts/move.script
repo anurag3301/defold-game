@@ -49,8 +49,6 @@ function update(self, dt)
 		go.set_position(vmath.vector3(go.get_position().x, 587, 0))
 	end
 	
-	sprite.set_hflip("#sprite", self.speed.x < 0)
-
 	go.set_position(go.get_position() + self.speed * dt)
 	self.fire_timer = self.fire_timer - dt
 end
