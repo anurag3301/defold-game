@@ -1,0 +1,16 @@
+function init(self)
+	local rotation = go.get_rotation()
+	local angle = vmath.quat_rotation_z(rotation.z).z 
+	local x_offset = vmath.rotate(rotation, vmath.vector3(1, 0, 0)) * -18
+	local y_offset = vmath.rotate(rotation, vmath.vector3(0, 1, 0)) * -40
+	go.set_position(go.get_position() + x_offset + y_offset)
+end
+
+function update(self, dt)
+	local speed = 100
+
+	local rotation = go.get_rotation()
+	local angle = vmath.quat_rotation_z(rotation.z).z 
+	local direction = vmath.rotate(rotation, vmath.vector3(0, -1, 0))
+	go.set_position(go.get_position() + direction * speed * dt)
+end
