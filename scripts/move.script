@@ -18,7 +18,7 @@ end
 function init(self)
 	msg.post(".", "acquire_input_focus")
 
-	go.set_position(vmath.vector3(626, 313, 0))
+	go.set_position(vmath.vector3(626, 313, 1))
 
 	self.speed = vmath.vector3(0, 0, 0)
 
