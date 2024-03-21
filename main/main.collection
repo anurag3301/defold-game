@@ -19,6 +19,26 @@ instances {
     z: 1.0
   }
 }
+instances {
+  id: "wolf"
+  prototype: "/main/wolf.go"
+  position {
+    x: 100.0
+    y: 100.0
+    z: 1.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale3 {
+    x: 1.5
+    y: 1.5
+    z: 1.0
+  }
+}
 scale_along_z: 0
 embedded_instances {
   id: "backgrouund"

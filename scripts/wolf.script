@@ -1,0 +1,23 @@
+function init(self)
+	-- Add initialization code here
+	-- Learn more: https://defold.com/manuals/script/
+	-- Remove this function if not needed
+end
+
+
+function update(self, dt)
+	local current_position = go.get_position()
+	local player_position = go.get_position("main:/Player")
+
+	local direction = player_position - current_position
+
+	local angle = math.atan2(direction.y, direction.x) - (math.pi / 2)
+
+	go.set_rotation(vmath.quat_rotation_z(angle))
+
+	local speed = 80
+
+	local new_position = current_position + vmath.normalize(direction) * speed * dt
+	go.set_position(new_position)
+end
+
