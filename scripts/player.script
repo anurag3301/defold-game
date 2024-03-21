@@ -23,7 +23,7 @@ function init(self)
 	self.speed = vmath.vector3(0, 0, 0)
 
 	self.move_state = {false, false, false, false}
-	self.fire_rate = 1  -- Adjust the fire rate as needed
+	self.fire_rate = 0.3
 	self.fire_timer = 0
 end
 

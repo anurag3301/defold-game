@@ -24,3 +24,9 @@ function update(self, dt)
 	local direction = vmath.rotate(rotation, vmath.vector3(0, -1, 0))
 	go.set_position(go.get_position() + direction * speed * dt)
 end
+
+function on_message(self, message_id, message, sender)
+	if message_id == hash("trigger_response") and message.enter then
+		go.delete()
+	end
+end
