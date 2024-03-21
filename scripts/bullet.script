@@ -1,13 +1,23 @@
+local player = hash("Player")
+local window_width = 1256
+local window_height = 616
+
 function init(self)
 	local rotation = go.get_rotation()
 	local angle = vmath.quat_rotation_z(rotation.z).z 
 	local x_offset = vmath.rotate(rotation, vmath.vector3(1, 0, 0)) * -18
 	local y_offset = vmath.rotate(rotation, vmath.vector3(0, 1, 0)) * -40
 	go.set_position(go.get_position() + x_offset + y_offset)
+	
 end
 
 function update(self, dt)
-	local speed = 100
+	local position = go.get_position()
+	if position.x < 0 or position.x > window_width or
+	position.y < 0 or position.y > window_height then
+		go.delete()
+	end
+	local speed = 500
 
 	local rotation = go.get_rotation()
 	local angle = vmath.quat_rotation_z(rotation.z).z 

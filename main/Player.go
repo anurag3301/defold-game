@@ -1,6 +1,6 @@
 components {
   id: "move"
-  component: "/scripts/move.script"
+  component: "/scripts/player.script"
   position {
     x: 0.0
     y: 0.0
