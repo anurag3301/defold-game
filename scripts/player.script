@@ -1,11 +1,3 @@
-
-local HASH_LEFT = hash("left")
-local HASH_RIGHT = hash("right")
-local HASH_UP = hash("up")
-local HASH_DOWN = hash("down")
-local TOUCH = hash("touch")
-local speed = 100
-
 local function play_animation(self, animation)
 	if self.current_animation ~= animation then
 		self.current_animation = animation
@@ -20,56 +12,33 @@ function init(self)
 	msg.post("#factory", "init")
 	go.set_position(vmath.vector3(626, 313, 1))
 
-	self.speed = vmath.vector3(0, 0, 0)
+	self.move = vmath.vector3(0, 0, 0)
 
-	self.move_state = {false, false, false, false}
 	self.fire_rate = 0.3
 	self.fire_timer = 0
 end
 
 
 function update(self, dt)
-	if (go.get_position().x < 34) then
-		self.speed.x = 0
-		go.set_position(vmath.vector3(34, go.get_position().y, 0))
+	local speed = 300
+	local next_pos = go.get_position() + self.move * speed * dt
+	if next_pos.x > 34 and next_pos.x < 1252-34 and next_pos.y > 39 and next_pos.y < 626-39 then
+		go.set_position(next_pos)
 	end
-
-	if  (go.get_position().x > 1218) then
-		self.speed.x = 0
-		go.set_position(vmath.vector3(1218, go.get_position().y, 0))
-	end
-
-	if (go.get_position().y < 39) then
-		self.speed.y = 0
-		go.set_position(vmath.vector3(go.get_position().x, 39, 0))
-	end
-
-	if  (go.get_position().y > 587) then
-		self.speed.y = 0
-		go.set_position(vmath.vector3(go.get_position().x, 587, 0))
-	end
-	
-	go.set_position(go.get_position() + self.speed * dt)
 	self.fire_timer = self.fire_timer - dt
-end
-
-
-function rotation_angle(player_x, player_y, mouse_x, mouse_y, player_angle)
-	delta_x = mouse_x - player_x
-	delta_y = mouse_y - player_y
-	angle = math.atan2(delta_y, delta_x) + (math.pi / 2)
-	return angle
 end
 
 function on_input(self, action_id, action)
 	mouse_x, mouse_y = action.x, action.y
 	player_x, player_y = go.get_position().x, go.get_position().y
 	player_angle = go.get_rotation()
-	angle = rotation_angle(player_x, player_y, mouse_x, mouse_y, player_angle)
+	delta_x = mouse_x - player_x
+	delta_y = mouse_y - player_y
+	angle = math.atan2(delta_y, delta_x) + (math.pi / 2)
 	go.set_rotation(vmath.quat_rotation_z(angle))
 
 
-	if action_id == TOUCH then
+	if action_id == hash('touch') then
 		if action.pressed then
 			self.fire_timer = 0
 		end
@@ -78,51 +47,36 @@ function on_input(self, action_id, action)
 			self.fire_timer = self.fire_rate
 		end
 	
-	elseif action_id == HASH_LEFT then
+	elseif action_id == hash('left') then
 		if action.pressed then
-			self.speed.x = -speed
-			self.move_state[1] = true
+			self.move.x = -1
 		elseif action.released then
-			self.speed.x = 0
-			self.move_state[1] = false
+			self.move.x = 0
 		end
 
-	elseif action_id == HASH_RIGHT then
+	elseif action_id == hash('right') then
 		if action.pressed then
-			self.speed.x = speed
-			self.move_state[2] = true
+			self.move.x = 1
 		elseif action.released then
-			self.speed.x = 0
-			self.move_state[2] = false
+			self.move.x = 0
 		end
 
-	elseif action_id == HASH_UP then
+	elseif action_id == hash('up') then
 		if action.pressed then
-			self.speed.y = speed
-			self.move_state[3] = true
+			self.move.y = 1
 		elseif action.released then
-			self.speed.y = 0
-			self.move_state[3] = false
+			self.move.y = 0
 		end
 
-	elseif action_id == HASH_DOWN then
+	elseif action_id == hash('down') then
 		if action.pressed then
-			self.speed.y = -speed
-			self.move_state[4] = true
+			self.move.y = -1
 		elseif action.released then
-			self.speed.y = 0
-			self.move_state[4] = false
+			self.move.y = 0
 		end
 	end
 
-	local walk = false
-	for i, value in ipairs(self.move_state) do
-		if value then
-			walk = true
-		end
-	end
-
-	if walk then
+	if self.move.x ~= 0 or self.move.y ~= 0 then
 		play_animation(self, hash("player_walk"))
 	else
 		play_animation(self, hash("player_idle"))
