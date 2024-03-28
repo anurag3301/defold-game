@@ -1,0 +1,14 @@
+local window_width = 626
+local window_height = 1252
+
+function init(self)
+	create_instance();
+	self.timer_id = timer.delay(5, true, create_instance)
+end
+
+function create_instance()
+	local x = math.random(0, window_width)
+	local y = math.random(0, window_height)
+	position = vmath.vector3(x, y, 0)
+	local instance_id = factory.create('#factory', position)
+end
