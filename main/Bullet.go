@@ -32,8 +32,8 @@ embedded_components {
   rotation {
     x: 0.0
     y: 0.0
-    z: 0.70710677
-    w: 0.70710677
+    z: 0.0
+    w: 1.0
   }
 }
 embedded_components {
@@ -64,8 +64,8 @@ embedded_components {
   "    count: 3\n"
   "    id: \"\"\n"
   "  }\n"
-  "  data: 5.3374233\n"
-  "  data: 8.372093\n"
+  "  data: 4.7027025\n"
+  "  data: 7.9761906\n"
   "  data: 10.0\n"
   "}\n"
   "linear_damping: 0.0\n"
