@@ -1,0 +1,13 @@
+local state = false
+function init(self)
+	msg.post(".", "acquire_input_focus")
+	msg.post("/menu#collectionproxy", "load")
+end
+
+function on_input(self, action_id, action)
+	if action_id == hash("start") and state == false then
+		msg.post(".", "disable")
+		msg.post("/menu#collectionproxy", "enable")
+		state = true
+	end
+end
