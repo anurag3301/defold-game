@@ -43,22 +43,16 @@ function on_input(self, action_id, action)
 	go.set_rotation(vmath.quat_rotation_z(angle))
 
 
-	if action_id == hash('touch') then
+	if action_id == hash('touch')then
 		if action.pressed then
-			self.fire_timer = 0
+			factory.create("#factory")
 		end
-		if self.fire_timer <= 0 then
-			local bullet_instance = factory.create("#factory")
-			self.fire_timer = self.fire_rate
-		end
-	
 	elseif action_id == hash('left') then
 		if action.pressed then
 			self.move.x = -1
 		elseif action.released then
 			self.move.x = 0
 		end
-
 	elseif action_id == hash('right') then
 		if action.pressed then
 			self.move.x = 1
