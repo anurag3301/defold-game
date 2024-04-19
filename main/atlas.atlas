@@ -6,6 +6,10 @@ images {
   image: "/images/B1.png"
   sprite_trim_mode: SPRITE_TRIM_MODE_OFF
 }
+images {
+  image: "/images/menu.png"
+  sprite_trim_mode: SPRITE_TRIM_MODE_OFF
+}
 animations {
   id: "player_walk"
   images {
@@ -57,17 +61,6 @@ animations {
   flip_vertical: 0
 }
 animations {
-  id: "wolf_idle"
-  images {
-    image: "/images/w2.png"
-    sprite_trim_mode: SPRITE_TRIM_MODE_OFF
-  }
-  playback: PLAYBACK_LOOP_FORWARD
-  fps: 10
-  flip_horizontal: 0
-  flip_vertical: 0
-}
-animations {
   id: "wolf_walk"
   images {
     image: "/images/w1.png"
@@ -86,7 +79,18 @@ animations {
     sprite_trim_mode: SPRITE_TRIM_MODE_OFF
   }
   playback: PLAYBACK_LOOP_FORWARD
-  fps: 12
+  fps: 8
+  flip_horizontal: 0
+  flip_vertical: 0
+}
+animations {
+  id: "wolf_attack"
+  images {
+    image: "/images/w2.png"
+    sprite_trim_mode: SPRITE_TRIM_MODE_OFF
+  }
+  playback: PLAYBACK_LOOP_FORWARD
+  fps: 1
   flip_horizontal: 0
   flip_vertical: 0
 }

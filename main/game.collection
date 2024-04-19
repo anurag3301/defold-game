@@ -1,11 +1,31 @@
 name: "main"
+instances {
+  id: "Player"
+  prototype: "/main/Player.go"
+  position {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale3 {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+  }
+}
 scale_along_z: 0
 embedded_instances {
-  id: "menu"
+  id: "backgrouund"
   data: "embedded_components {\n"
   "  id: \"sprite\"\n"
   "  type: \"sprite\"\n"
-  "  data: \"default_animation: \\\"menu\\\"\\n"
+  "  data: \"default_animation: \\\"background\\\"\\n"
   "material: \\\"/builtins/materials/sprite.material\\\"\\n"
   "blend_mode: BLEND_MODE_ALPHA\\n"
   "textures {\\n"
@@ -14,8 +34,8 @@ embedded_instances {
   "}\\n"
   "\"\n"
   "  position {\n"
-  "    x: 0.0\n"
-  "    y: 0.0\n"
+  "    x: 626.0\n"
+  "    y: 313.0\n"
   "    z: 0.0\n"
   "  }\n"
   "  rotation {\n"
@@ -27,8 +47,8 @@ embedded_instances {
   "}\n"
   ""
   position {
-    x: 626.0
-    y: 313.0
+    x: 0.0
+    y: 0.0
     z: 0.0
   }
   rotation {
