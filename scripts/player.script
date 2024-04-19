@@ -5,17 +5,22 @@ local function play_animation(self, animation)
 	end
 end
 
+function create_wolf()
+	factory.create("#wolf")
+end
 
 
 function init(self)
 	msg.post(".", "acquire_input_focus")
-	msg.post("#factory", "init")
 	go.set_position(vmath.vector3(626, 313, 1))
 
 	self.move = vmath.vector3(0, 0, 0)
 
 	self.fire_rate = 0.3
 	self.fire_timer = 0
+
+	factory.create("#wolf")
+	timer.delay(3, true, create_wolf)
 end
 
 
