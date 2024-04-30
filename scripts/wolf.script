@@ -4,7 +4,6 @@ function init(self)
 	-- math.randomseed(socket.gettime()*10000)
 	local x = math.random(0, 1252)
 	local y = math.random(0, 626)
-	print(vmath.vector3(x, y, 0))
 	go.set_position(vmath.vector3(x, y, 0))
 	self.health = 300
 	self.speed = 150
@@ -31,7 +30,6 @@ function update(self, dt)
 	local next_pos = cur_pos + vmath.normalize(direction) * self.speed * dt
 	go.set_position(next_pos)
 	go.set_rotation(vmath.quat_rotation_z(angle))
-	print()
 end
 
 function on_message(self, message_id, message, sender)
@@ -44,7 +42,11 @@ function on_message(self, message_id, message, sender)
 	if message['other_group'] == hash('bullet') and message['enter'] == true then
 		self.health = self.health-100
 		if self.health <= 0 then
+			msg.post("/Player#indicators", "update_kills")
 			go.delete()
 		end
+	end
+	if message_id == hash("game_over") then
+		go.delete()
 	end
 end

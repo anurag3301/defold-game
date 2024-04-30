@@ -1,3 +1,6 @@
+local state = false
+local wolves = {}
+
 local function play_animation(self, animation)
 	if self.current_animation ~= animation then
 		self.current_animation = animation
@@ -6,21 +9,26 @@ local function play_animation(self, animation)
 end
 
 function create_wolf()
-	factory.create("#wolf")
+	table.insert(wolves, factory.create("#wolf"))
 end
 
 
 function init(self)
 	msg.post(".", "acquire_input_focus")
+	msg.post("#collectionproxy", "load")
 	go.set_position(vmath.vector3(626, 313, 1))
 
 	self.move = vmath.vector3(0, 0, 0)
 
+	self.wolves = {}
+
 	self.fire_rate = 0.3
 	self.fire_timer = 0
+	self.health = 10;
 
-	factory.create("#wolf")
+	table.insert(wolves, factory.create("#wolf"))
 	timer.delay(3, true, create_wolf)
+	msg.post("#indicators", "update_health", { health = self.health })
 end
 
 
@@ -79,5 +87,22 @@ function on_input(self, action_id, action)
 		play_animation(self, hash("player_walk"))
 	else
 		play_animation(self, hash("player_idle"))
+	end
+end
+
+function on_message(self, message_id, message, sender)
+	if message['other_group'] == hash('wolf') then
+		if message['enter'] == true then
+			self.health = self.health - 20
+			msg.post("#indicators", "update_health", { health = self.health })
+			
+			if self.health <= 0 then
+				for i, v in ipairs(wolves) do
+					pcall(go.delete, v)
+				end
+				go.delete()
+				msg.post("#collectionproxy", "enable")
+			end
+		end
 	end
 end
