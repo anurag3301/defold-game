@@ -8,6 +8,7 @@ function init(self)
 	go.set_position(vmath.vector3(x, y, 0))
 	self.health = 300
 	self.speed = 150
+	self.back = false
 end
 
 local function play_animation(self, animation)
@@ -21,6 +22,11 @@ function update(self, dt)
 	local cur_pos = go.get_position()
 	local player_pos = go.get_position("main:/Player")
 	local direction = player_pos - cur_pos
+	local distance = math.sqrt(math.pow((player_pos.x-cur_pos.x), 2) + math.pow((player_pos.y-cur_pos.y), 2))
+	if distance > 200 and self.back == true then
+		self.speed = 150
+		self.back = false
+	end
 	local angle = math.atan2(direction.y, direction.x) - (math.pi /2)
 	local next_pos = cur_pos + vmath.normalize(direction) * self.speed * dt
 	go.set_position(next_pos)
@@ -31,11 +37,8 @@ end
 function on_message(self, message_id, message, sender)
 	if message['other_group'] == hash('player') then
 		if message['enter'] == true then
-			self.speed = 0
-			play_animation(self, hash("wolf_attack"))
-		elseif message['enter'] == false then
-			self.speed = 150
-			play_animation(self, hash("wolf_walk"))
+			self.speed = -700
+			self.back = true
 		end
 	end
 	if message['other_group'] == hash('bullet') and message['enter'] == true then

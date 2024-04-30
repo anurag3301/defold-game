@@ -119,7 +119,7 @@ embedded_components {
   "    id: \"\"\n"
   "  }\n"
   "  data: 17.18232\n"
-  "  data: 44.209522\n"
+  "  data: 43.736694\n"
   "  data: 10.0\n"
   "}\n"
   "linear_damping: 0.0\n"
